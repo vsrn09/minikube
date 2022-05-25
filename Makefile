@@ -106,6 +106,7 @@ SHA512SUM=$(shell command -v sha512sum || echo "shasum -a 512")
 # gvisor tag to automatically push changes to
 # to update minikubes default, update deploy/addons/gvisor
 GVISOR_TAG ?= latest
+XSPOT_TAG ?= latest
 
 # auto-pause-hook tag to push changes to
 AUTOPAUSE_HOOK_TAG ?= v0.0.2
@@ -335,7 +336,7 @@ test-pkg/%: ## Trigger packaging test
 	go test -v -test.timeout=60m ./$* --tags="$(MINIKUBE_BUILD_TAGS)"
 
 .PHONY: all
-all: cross drivers e2e-cross cross-tars exotic retro out/gvisor-addon ## Build all different minikube components
+all: cross drivers e2e-cross cross-tars exotic retro out/xspot out/gvisor-addon ## Build all different minikube components
 
 .PHONY: drivers
 drivers: ## Build Hyperkit and KVM2 drivers
@@ -772,6 +773,23 @@ endif
 out/gvisor-addon: ## Build gvisor addon
 	$(if $(quiet),@echo "  GO       $@")
 	$(Q)GOOS=linux CGO_ENABLED=0 go build -o $@ cmd/gvisor/gvisor.go
+
+.PHONY: out/xspot-addon
+out/xspot-addon: ## Build xspot addon
+        $(if $(quiet),@echo "  GO       $@")
+        $(Q)GOOS=linux CGO_ENABLED=0 go build -o $@ cmd/xspot/xspot.go
+
+.PHONY: xspot-addon-image
+xspot-addon-image: out/xspot-addon  ## Build docker image for xspot
+        #docker build -t $(REGISTRY)/xspot-addon:$(XSPOT_TAG) -f deploy/xspot/Dockerfile .
+        docker build -t docker.io/venkatnamala/xspot-addon:$(XSPOT_TAG) -f deploy/xspot/Dockerfile .
+
+.PHONY: push-xspot-addon-image
+push-xspot-addon-image: xspot-addon-image
+        #docker login gcr.io/k8s-minikube
+	docker login
+        #$(MAKE) push-docker IMAGE=$(REGISTRY)/xspot-addon:$(XSPOT_TAG)
+        $(MAKE) push-docker IMAGE=docker.io/venkatnamala/xspot-addon:$(XSPOT_TAG)
 
 .PHONY: gvisor-addon-image
 gvisor-addon-image: out/gvisor-addon  ## Build docker image for gvisor

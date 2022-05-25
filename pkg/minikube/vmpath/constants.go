@@ -33,4 +33,6 @@ const (
 	GuestCertStoreDir = "/etc/ssl/certs"
 	// GuestGvisorDir is where gvisor bootstraps from
 	GuestGvisorDir = "/tmp/gvisor"
+	// GuestXSpotDir is where xspot bootstraps from
+        GuestXSpotDir = "/tmp/xspot"
 )

@@ -63,6 +63,7 @@ var requiredDirectories = []string{
 	path.Join(vmpath.GuestPersistentDir, "images"),
 	path.Join(vmpath.GuestPersistentDir, "binaries"),
 	vmpath.GuestGvisorDir,
+	vmpath.GuestXSpotDir,
 	vmpath.GuestCertAuthDir,
 	vmpath.GuestCertStoreDir,
 }

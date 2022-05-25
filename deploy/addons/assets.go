@@ -108,6 +108,10 @@ var (
 	//go:embed gvisor/*.tmpl gvisor/*.toml
 	GvisorAssets embed.FS
 
+	// xspotAssets assets for xspot  addon
+	//go:embed xspot/*.tmpl xspot/*.toml
+	XSpotAssets embed.FS
+
 	// HelmTillerAssets assets for helm-tiller addon
 	//go:embed helm-tiller/*.tmpl
 	HelmTillerAssets embed.FS

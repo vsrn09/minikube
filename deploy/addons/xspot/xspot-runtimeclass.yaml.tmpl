@@ -1,0 +1,8 @@
+apiVersion: node.k8s.io/v1beta1
+kind: RuntimeClass
+metadata:
+  name: xspot
+  labels:
+    kubernetes.io/minikube-addons: xspot
+    addonmanager.kubernetes.io/mode: Reconcile
+handler: xspot

@@ -462,6 +462,27 @@ var Addons = map[string]*Addon{
 	}, map[string]string{
 		"GvisorAddon": "gcr.io",
 	}),
+        "xspot": NewAddon([]*BinAsset{
+                MustBinAsset(addons.XSpotAssets,
+                        "xspot/xspot-pod.yaml.tmpl",
+                        vmpath.GuestAddonsDir,
+                        "xspot-pod.yaml",
+                        "0640"),
+                MustBinAsset(addons.XSpotAssets,
+                        "xspot/xspot-runtimeclass.yaml.tmpl",
+                        vmpath.GuestAddonsDir,
+                        "xspot-runtimeclass.yaml",
+                        "0640"),
+                MustBinAsset(addons.XSpotAssets,
+                        "xspot/xspot-config.toml",
+                        vmpath.GuestXSpotDir,
+                        constants.XSpotConfigTomlTargetName,
+                        "0640"),
+        }, false, "xspot", "Exotanium", map[string]string{
+		"XSpotAddon": "venkatnamala/xspot-addon:latest",
+        }, map[string]string{
+                "XSpotAddon": "docker.io",
+        }),
 	"helm-tiller": NewAddon([]*BinAsset{
 		MustBinAsset(addons.HelmTillerAssets,
 			"helm-tiller/helm-tiller-dp.tmpl",

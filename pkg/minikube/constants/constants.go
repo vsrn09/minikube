@@ -153,6 +153,10 @@ var (
 	IsMinikubeChildProcess = "IS_MINIKUBE_CHILD_PROCESS"
 	// GvisorConfigTomlTargetName is the go-bindata target name for the gvisor config.toml
 	GvisorConfigTomlTargetName = "gvisor-config.toml"
+
+	// XSpotConfigTomlTargetName is the go-bindata target name for the xspot-config.toml
+        XSpotConfigTomlTargetName = "xspot-config.toml"
+
 	// MountProcessFileName is the filename of the mount process
 	MountProcessFileName = ".mount-process"
 

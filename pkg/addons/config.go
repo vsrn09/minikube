@@ -35,6 +35,7 @@ var addonPodLabels = map[string]string{
 	"ingress":             "app.kubernetes.io/name=ingress-nginx",
 	"registry":            "kubernetes.io/minikube-addons=registry",
 	"gvisor":              "kubernetes.io/minikube-addons=gvisor",
+	"xspot":              "kubernetes.io/minikube-addons=xspot",
 	"gcp-auth":            "kubernetes.io/minikube-addons=gcp-auth",
 	"csi-hostpath-driver": "kubernetes.io/minikube-addons=csi-hostpath-driver",
 }
@@ -70,6 +71,12 @@ var Addons = []*Addon{
 	},
 	{
 		name:        "gvisor",
+		set:         SetBool,
+		validations: []setFn{IsRuntimeContainerd},
+		callbacks:   []setFn{EnableOrDisableAddon, verifyAddonStatus},
+	},
+	{
+		name:        "xspot",
 		set:         SetBool,
 		validations: []setFn{IsRuntimeContainerd},
 		callbacks:   []setFn{EnableOrDisableAddon, verifyAddonStatus},
@@ -138,6 +145,11 @@ var Addons = []*Addon{
 		name:      "registry",
 		set:       SetBool,
 		callbacks: []setFn{EnableOrDisableAddon, verifyAddonStatus},
+	},
+	{
+		name:      "xspot",
+		set:       SetBool,
+		callbacks: []setFn{EnableOrDisableAddon},
 	},
 	{
 		name:      "registry-creds",

@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: xspot
+  namespace: kube-system
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+    kubernetes.io/minikube-addons: xspot
+    gcp-auth-skip-secret: "true"
+spec:
+  hostPID: true
+  containers:
+    - name: xspot
+      image: {{.CustomRegistries.XSpotAddon  | default .ImageRepository | default .Registries.XSpotAddon }}{{.Images.XSpotAddon}}
+      securityContext:
+        privileged: true
+      volumeMounts:
+      - mountPath: /node/
+        name: node-root
+      - mountPath: /node/run
+        name: node-run
+      - mountPath: /tmp/xspot
+        name: node-tmp
+      env:
+        - name: SYSTEMD_IGNORE_CHROOT
+          value: "yes"
+      imagePullPolicy: IfNotPresent
+  volumes:
+  - name: node-root
+    hostPath:
+      path: /
+  - name: node-run
+    hostPath:
+      path: /run
+  - name: node-tmp
+    hostPath:
+      path: /tmp/xspot
+  restartPolicy: Always
