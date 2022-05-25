@@ -776,20 +776,20 @@ out/gvisor-addon: ## Build gvisor addon
 
 .PHONY: out/xspot-addon
 out/xspot-addon: ## Build xspot addon
-        $(if $(quiet),@echo "  GO       $@")
-        $(Q)GOOS=linux CGO_ENABLED=0 go build -o $@ cmd/xspot/xspot.go
+	$(if $(quiet),@echo "  GO       $@")
+	$(Q)GOOS=linux CGO_ENABLED=0 go build -o $@ cmd/xspot/xspot.go
 
 .PHONY: xspot-addon-image
 xspot-addon-image: out/xspot-addon  ## Build docker image for xspot
-        #docker build -t $(REGISTRY)/xspot-addon:$(XSPOT_TAG) -f deploy/xspot/Dockerfile .
-        docker build -t docker.io/venkatnamala/xspot-addon:$(XSPOT_TAG) -f deploy/xspot/Dockerfile .
+	#docker build -t $(REGISTRY)/xspot-addon:$(XSPOT_TAG) -f deploy/xspot/Dockerfile .
+	docker build -t docker.io/venkatnamala/xspot-addon:$(XSPOT_TAG) -f deploy/xspot/Dockerfile .
 
 .PHONY: push-xspot-addon-image
 push-xspot-addon-image: xspot-addon-image
-        #docker login gcr.io/k8s-minikube
+	#docker login gcr.io/k8s-minikube
 	docker login
-        #$(MAKE) push-docker IMAGE=$(REGISTRY)/xspot-addon:$(XSPOT_TAG)
-        $(MAKE) push-docker IMAGE=docker.io/venkatnamala/xspot-addon:$(XSPOT_TAG)
+	#$(MAKE) push-docker IMAGE=$(REGISTRY)/xspot-addon:$(XSPOT_TAG)
+	$(MAKE) push-docker IMAGE=docker.io/venkatnamala/xspot-addon:$(XSPOT_TAG)
 
 .PHONY: gvisor-addon-image
 gvisor-addon-image: out/gvisor-addon  ## Build docker image for gvisor
